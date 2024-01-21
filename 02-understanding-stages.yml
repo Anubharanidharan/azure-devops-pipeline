@@ -35,6 +35,11 @@ stages:
           **/*.yml
           **/*.tf
         TargetFolder: '$(Build.ArtifactWorkingDirectory)'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
 #   - job: Second_job
 #     steps: 
 #     - bash: echo Second_job 
