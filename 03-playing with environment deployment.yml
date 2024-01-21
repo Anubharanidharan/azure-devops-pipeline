@@ -36,4 +36,12 @@ stages:
        deploy:
          steps:
            - script: echo deploy to QC 
+- stage: ProdDeploy
+  jobs: 
+  - deployment: ProdDeployJob
+    strategy:
+     runOnce:
+       deploy:
+         steps:
+           - script: echo Deploy to  Prod 
   
