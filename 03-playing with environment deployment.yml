@@ -30,6 +30,7 @@ stages:
 - stage: QCDeploy
   jobs:
   - deployment: QCDeployJob
+    environment: QC
     strategy:
      runOnce:
        deploy:
