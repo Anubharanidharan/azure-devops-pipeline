@@ -17,11 +17,14 @@ stages:
   jobs:
   - deployment: 
     environment: Build 
-  - job: BuildJob
-    steps:
-    - bash: echo " Do The Jobs:"
-- stage: DevDeploy
+    strategy:
+     runOnce:
+       deploy:
+         steps:
+           - script: echo Ready To Build
+- stage: Deployment
   jobs:
+  - job: Dev
   - deployment: DevDeployJob
     environment: Dev
     strategy:
@@ -29,13 +32,14 @@ stages:
        deploy:
          steps:
            - script: echo deploy to dev
-  - deployment: DevDeployJob2
-    environment: Dev
+  - job: FlowDev
+  - deployment: FlowDevDeployJob
+    environment: FlowDev
     strategy:
      runOnce:
        deploy:
          steps:
-           - script: echo deploy to dev 2
+           - script: echo deploy to Flowdev 
 - stage: QCDeploy
   jobs:
   - deployment: QCDeployJob
