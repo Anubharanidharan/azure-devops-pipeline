@@ -15,7 +15,7 @@ pool:
 stages:
 - stage: Build
   jobs:
-  - deployment: ON-BOARD
+  - deployment: On_Board
     environment: Build 
     strategy:
      runOnce:
