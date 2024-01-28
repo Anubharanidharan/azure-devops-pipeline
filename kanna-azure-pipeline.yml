@@ -32,7 +32,8 @@ steps:
     backendAzureRmContainerName: 'krishnacontainer'
     backendAzureRmKey: 'kubernetes-devenv.tfstate'
     allowTelemetryCollection: false
-    
+  
+
 - task: TerraformCLI@2
   inputs:
     command: 'apply'
