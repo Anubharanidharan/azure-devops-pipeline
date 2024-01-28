@@ -18,23 +18,19 @@ steps:
     secureFile: 'azure_keys.pub'
 
 
+
 - task: TerraformCLI@2
   inputs:
     command: 'init'
     workingDirectory: '$(System.DefaultWorkingDirectory)/configuration/iaac/azure/kubernetes'
-    #commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var ssh_public_key=$(publickey.secureFilePath)'
+    commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var ssh_public_key=$(publickey.secureFilePath)'
     backendType: 'azurerm'
     backendServiceArm: 'azure-resource-manager-service-connection'
+    backendAzureRmSubscriptionId: '59836cfd-f266-4338-8227-d8535b8d7de5'
     ensureBackend: true
-    backendAzureRmResourceGroupName: 'terraform-backend-rg'
+    backendAzureRmResourceGroupName: 'terraform-backend-krishna'
     backendAzureRmResourceGroupLocation: 'westeurope'
-    backendAzureRmStorageAccountName: 'storagekrishnaabc'
-    backendAzureRmContainerName: 'krishnacontainer'
-    backendAzureRmKey: 'k8s-prod.tfstate'
-
-- task: TerraformCLI@2
-  inputs:
-    command: 'apply'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/configuration/iaac/azure/kubernetes'
-    environmentServiceName: 'azure-resource-manager-service-connection'
-    commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var ssh_public_key=$(publickey.secureFilePath)'
+    backendAzureRmStorageAccountName: 'Bharanimurugan'
+    backendAzureRmContainerName: 'Murugancontainer'
+    backendAzureRmKey: 'kubernetes-prod.tfstate'
+    allowTelemetryCollection: true
