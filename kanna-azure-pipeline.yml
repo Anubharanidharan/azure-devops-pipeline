@@ -9,29 +9,25 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-jobs:
-- job: job1
-  steps:
-  - script: echo Hello, !
-    displayName: 'Run a one-line script'
-  - script: |
-      echo Add other tasks to build, test, and deploy your project.
-      echo See https://aka.ms/yaml
-    displayName: 'Run a multi-line script' 
-- job: job2
-  dependsOn: job1
-  steps:
-  - script: echo Hello, changed!
-    displayName: 'Run a one-line script'
-- job: job3
-  dependsOn: job1
-  steps:
-  - script: echo Hello, updated!
-    displayName: 'Run a one-line script'
-- job: job4
-  dependsOn: 
-  -  job2
-  -  job3
-  steps:
-  - script: echo Hello, Anubharani!
-    displayName: 'Run a one-line script'
+steps:
+- script: echo k8s terraform Azure !
+  displayName: 'Run - a - one - line - script'
+
+
+- task: DownloadSecureFile@1
+  name: publickey 
+  inputs:
+    secureFile: 'azure_keys.pub'
+
+- task: TerraformTaskV4@4
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/configuration/iaac/azure/kubernetes'
+    commandOptions: '-var client_id=${client_id} -var client_secret=${client_secret} -var ssh_public_key=${publickey.securefilepath}'
+    backendServiceArm: 'azure-resource-manager-service-connection'
+    backendAzureRmResourceGroupName: 'terraform-backend-rg'
+    backendAzureRmStorageAccountName: 'rrr'
+    backendAzureRmContainerName: 'rrrcontainer'
+    backendAzureRmKey: 'kubernetes-dev.tfstate'
+    
