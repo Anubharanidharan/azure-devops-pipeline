@@ -17,9 +17,10 @@ steps:
   inputs:
     secureFile: 'azure_keys.pub'
 
-- task: TerraformTaskV4@4
+
+    
+- task: TerraformCLI@0
   inputs:
-    provider: 'azurerm'
     command: 'init'
     workingDirectory: '$(System.DefaultWorkingDirectory)/configuration/iaac/azure/kubernetes'
     commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var ssh_public_key=$(publickey.secureFilePath)'
@@ -28,6 +29,6 @@ steps:
     ensureBackend: true
     backendAzureRmResourceGroupName: 'terraform-backend-rg'
     backendAzureRmResourceGroupLocation: 'westeurope'
-    backendAzureRmStorageAccountName: 'storageacctrangaabcd'
-    backendAzureRmContainerName: 'rangacontainer'
-    backendAzureRmKey: 'kubernetes-develop.tfstate'
+    backendAzureRmStorageAccountName: 'storageacctrangaxyzabc'
+    backendAzureRmContainerName: 'storageacctrangaxyzcontainer'
+    backendAzureRmKey: 'kubernetes-dev.tfstate'
