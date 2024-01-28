@@ -30,7 +30,7 @@ steps:
     backendAzureRmResourceGroupLocation: 'westeurope'
     backendAzureRmStorageAccountName: 'storagekrishnaabc'
     backendAzureRmContainerName: 'krishnacontainer'
-    backendAzureRmKey: 'kubernetes-devenv.tfstate'
+    backendAzureRmKey: 'kubernetes-dev.tfstate'
 
 - task: TerraformCLI@2
   inputs:
