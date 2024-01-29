@@ -26,6 +26,7 @@ steps:
     commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var ssh_public_key=$(publickey.secureFilePath)'
     backendType: 'azurerm'
     backendServiceArm: 'azure-resource-manager-service-connection'
+    backendAzureRmSubscriptionId: '59836cfd-f266-4338-8227-d8535b8d7de5'
     ensureBackend: true
     backendAzureRmResourceGroupName: 'azure-pipeline-krishna'
     backendAzureRmResourceGroupLocation: 'westeurope'
