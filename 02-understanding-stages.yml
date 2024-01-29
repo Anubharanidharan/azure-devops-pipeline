@@ -3,43 +3,43 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-trigger:
-- main
+#trigger:
+#- main
 
-pool:
-  vmImage: ubuntu-latest
+#pool:
+ # vmImage: ubuntu-latest
 
-stages:
-- stage: Build
-  jobs:
-  - job: First_Job 
-    steps:
-    - bash: echo Build First_job
-    - bash: echo $(PIPELINELEVELVARIABLE)
-    - bash: echo $(Build.BuildNumber)
-    - bash: echo $(Build.BuildId)
-    - bash: echo $(Build.SourceBranchName)
-    - bash: echo $(Build.SourceDirectory)
-    - bash: echo $(System.DefaultWorkingDirectory)
-    - bash: ls -R $(System.DefaultWorkingDirectory)
-    - bash: echo $(Build.ArtifactWorkingDirectory)
-    - bash: ls -R $(Build.ArtifactWorkingDirectory)
-    - bash: java -version 
-    - bash: node --version
-    - bash: python --version
-    - bash: mvn -version
-    - task: CopyFiles@2
-      inputs:
-        SourceFolder: '$(System.DefaultWorkingDirectory)'
-        Contents: |
-          **/*.yml
-          **/*.tf
-        TargetFolder: '$(Build.ArtifactWorkingDirectory)'
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: 'drop'
-        publishLocation: 'Container'
+#stages:
+#- stage: Build
+  #jobs:
+ # - job: First_Job 
+ #   steps:
+ #   - bash: echo Build First_job
+ #   - bash: echo $(PIPELINELEVELVARIABLE)
+ #   - bash: echo $(Build.BuildNumber)
+ #   - bash: echo $(Build.BuildId)
+ #   - bash: echo $(Build.SourceBranchName)
+ #   - bash: echo $(Build.SourceDirectory)
+ #   - bash: echo $(System.DefaultWorkingDirectory)
+ #   - bash: ls -R $(System.DefaultWorkingDirectory)
+ #   - bash: echo $(Build.ArtifactWorkingDirectory)
+ #   - bash: ls -R $(Build.ArtifactWorkingDirectory)
+ #   - bash: java -version 
+#    - bash: node --version
+ #   - bash: python --version
+  #  - bash: mvn -version
+ #   - task: CopyFiles@2
+ #     inputs:
+ #       SourceFolder: '$(System.DefaultWorkingDirectory)'
+ #       Contents: |
+#          **/*.yml
+ #         **/*.tf
+#        TargetFolder: '$(Build.ArtifactWorkingDirectory)'
+ #   - task: PublishBuildArtifacts@1
+ #     inputs:
+ #       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+ #       ArtifactName: 'drop'
+#        publishLocation: 'Container'
 #   - job: Second_job
 #     steps: 
 #     - bash: echo Second_job 
@@ -70,3 +70,35 @@ stages:
 #     steps: 
 #     - bash: echo $(environment)DeployJob
   
+
+
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: echo K8S Terraform Azure!
+  displayName: 'Run a one-line script'
+
+- task: DownloadSecureFile@1
+  name: publickey
+  inputs:
+    secureFile: 'azure_keys.pub'
+
+- task: TerraformCLI@2
+  inputs:
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/configuration/iaac/azure/kubernetes'
+    commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var ssh_public_key=$(publickey.secureFilePath)'
+    backendType: 'azurerm'
+    backendServiceArm: 'azure-resource-manager-service-connection'
+    ensureBackend: true
+    backendAzureRmResourceGroupName: 'azure-kubernetes-krishna'
+    backendAzureRmResourceGroupLocation: 'westeurope'
+    backendAzureRmStorageAccountName: 'storageazurekuberneteskrishna28'
+    backendAzureRmContainerName: 'storageazurekuberneteskrishnacontainer'
+    backendAzureRmKey: 'krishna-devops.tfstate'
+    allowTelemetryCollection: true
