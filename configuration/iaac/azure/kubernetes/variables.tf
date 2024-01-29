@@ -3,7 +3,7 @@ variable client_secret {}
 variable ssh_public_key {}
 
 variable environment {
-    default = "dev"
+    default = "prod"
 }
 
 variable location {
@@ -17,13 +17,13 @@ variable node_count {
 
 
 variable dns_prefix {
-  default = "k8stest"
+  default = "k3stest"
 }
 
 variable cluster_name {
-  default = "k8stest"
+  default = "k3stest"
 }
 
 variable resource_group {
-  default = "kubernetes"
+  default = "kuber"
 }
