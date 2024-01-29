@@ -87,7 +87,7 @@ steps:
   name: publickey
   inputs:
     secureFile: 'azure_keys.pub'
-
+    
 - task: TerraformCLI@2
   inputs:
     command: 'init'
@@ -95,10 +95,11 @@ steps:
     commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var ssh_public_key=$(publickey.secureFilePath)'
     backendType: 'azurerm'
     backendServiceArm: 'azure-resource-manager-service-connection'
+    backendAzureRmSubscriptionId: '59836cfd-f266-4338-8227-d8535b8d7de5'
     ensureBackend: true
-    backendAzureRmResourceGroupName: 'azure-kubernetes-krishna'
+    backendAzureRmResourceGroupName: 'terraform-backend-rg'
     backendAzureRmResourceGroupLocation: 'westeurope'
-    backendAzureRmStorageAccountName: 'storageazurekuberneteskrishna28'
-    backendAzureRmContainerName: 'storageazurekuberneteskrishnacontainer'
-    backendAzureRmKey: 'krishna-devops.tfstate'
-    allowTelemetryCollection: true
+    backendAzureRmStorageAccountName: 'storagekrishnaabc'
+    backendAzureRmContainerName: 'krishnacontainer'
+    backendAzureRmKey: 'kubernetes-devenv.tfstate'
+    allowTelemetryCollection: false
