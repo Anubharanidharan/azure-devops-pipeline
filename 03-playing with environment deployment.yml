@@ -57,7 +57,12 @@ pool:
 #        deploy:
 #          steps:
 #            - script: echo deploy to prod
-  
+
+
+steps:
+- script: echo K8S Terraform Azure!
+  displayName: 'Run a one-line script'
+
 - task: TerraformTaskV4@4
   inputs:
     provider: 'aws'
