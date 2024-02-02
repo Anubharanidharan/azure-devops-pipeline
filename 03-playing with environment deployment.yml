@@ -1,6 +1,7 @@
 trigger:
 - main
-
+pool:
+  vmImage: ubuntu-latest
 # strategy:
 #  matrix:
 #    linux:
@@ -9,51 +10,59 @@ trigger:
 #      operatingSystem: ' macos-latest' 
 
 
-pool:
-  vmImage: ubuntu-latest
+# pool:
+#   vmImage: ubuntu-latest
 
-stages:
-- stage: Build
-  jobs:
-  - deployment: On_Board
-    environment: Build 
-    strategy:
-     runOnce:
-       deploy:
-         steps:
-           - script: echo Ready To Build
-- stage: Deployment
-  jobs:
-  - deployment: DevDeploy
-    environment: Dev
-    strategy:
-     runOnce:
-       deploy:
-         steps:
-           - script: echo deploy to dev
-  - deployment: FlowDevDeploy
-    environment: FlowDev
-    strategy:
-     runOnce:
-       deploy:
-         steps:
-           - script: echo deploy to Flowdev 
-- stage: QCDeploy
-  jobs:
-  - deployment: QCDeploy
-    environment: QC
-    strategy:
-     runOnce:
-       deploy:
-         steps:
-           - script: echo deploy to QC 
-- stage: ProdDeploy
-  jobs: 
-  - deployment: ProdDeploy
-    environment: Prod
-    strategy:
-     runOnce:
-       deploy:
-         steps:
-           - script: echo deploy to prod
+# stages:
+# - stage: Build
+#   jobs:
+#   - deployment: On_Board
+#     environment: Build 
+#     strategy:
+#      runOnce:
+#        deploy:
+#          steps:
+#            - script: echo Ready To Build
+# - stage: Deployment
+#   jobs:
+#   - deployment: DevDeploy
+#     environment: Dev
+#     strategy:
+#      runOnce:
+#        deploy:
+#          steps:
+#            - script: echo deploy to dev
+#   - deployment: FlowDevDeploy
+#     environment: FlowDev
+#     strategy:
+#      runOnce:
+#        deploy:
+#          steps:
+#            - script: echo deploy to Flowdev 
+# - stage: QCDeploy
+#   jobs:
+#   - deployment: QCDeploy
+#     environment: QC
+#     strategy:
+#      runOnce:
+#        deploy:
+#          steps:
+#            - script: echo deploy to QC 
+# - stage: ProdDeploy
+#   jobs: 
+#   - deployment: ProdDeploy
+#     environment: Prod
+#     strategy:
+#      runOnce:
+#        deploy:
+#          steps:
+#            - script: echo deploy to prod
   
+- task: TerraformTaskV4@4
+  inputs:
+    provider: 'aws'
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/configuration/iaac/aws/kubernetes'
+    backendServiceAWS: 'AWS-for-terraform'
+    backendAWSBucketName: 'terraform-backend-state-inkanna-2001'
+    backendAWSKey: 'kubernetes-dev.tfstate'
